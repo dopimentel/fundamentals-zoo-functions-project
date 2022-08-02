@@ -19,4 +19,7 @@ describe('Testes da função HandlerElephants', () => {
   it('Testa se a função retorna "Parâmetro inválido, é necessário uma string" caso não receba uma string como parâmetro.', () => {
     expect(handlerElephants(5)).toMatch('Parâmetro inválido, é necessário uma string');
   });
+  it('Testa se a função retorna um array com os dias em que os elefantes estão disponíveis quando recebe "availability".', () => {
+    expect(handlerElephants('availability')).toEqual(['Friday', 'Saturday', 'Sunday', 'Tuesday']);
+  });
 });
