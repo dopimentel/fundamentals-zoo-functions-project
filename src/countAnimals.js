@@ -8,8 +8,10 @@ function countAnimals(animal) {
       return acc;
     }, {});
   }
-
+  if (animal.sex === undefined) {
+    return species.find((element) => element.name === animal.specie).residents
+      .length;
+  }
 }
 
 module.exports = countAnimals;
-
