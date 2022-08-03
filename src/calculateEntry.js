@@ -1,4 +1,4 @@
-const { name } = require('faker/locale/pt_BR');
+const { prices } = require('../data/zoo_data');
 const data = require('../data/zoo_data');
 
 const countEntrants = (entrants) => {
@@ -20,9 +20,11 @@ const countEntrants = (entrants) => {
 };
 
 function calculateEntry(entrants) {
-  if (!entrants || {}) {
+  if (!entrants || Object.keys(entrants).length === 0) {
     return 0;
   }
+  const { adult, child, senior } = countEntrants(entrants);
+  return (adult * prices.adult) + (child * prices.child) + (senior * prices.senior);
 }
 
 module.exports = { calculateEntry, countEntrants };
