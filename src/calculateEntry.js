@@ -20,7 +20,7 @@ const countEntrants = (entrants) => {
 };
 
 function calculateEntry(entrants) {
-  if (!entrants) {
+  if (!entrants || {}) {
     return 0;
   }
 }
