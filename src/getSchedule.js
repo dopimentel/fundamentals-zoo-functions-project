@@ -21,8 +21,26 @@ const officeHour = (weekDay) => {
   }pm`;
 };
 
-const getSchedule = (scheduleTarget) => {
-  if (!scheduleTarget) {
+const isAnimal = (param) =>
+  species
+    .reduce((animalsList, specie) => {
+      animalsList.push(specie.name);
+      return animalsList;
+    }, [])
+    .some((animal) => animal === param);
+
+const isWeekDay = (param) => Object.keys(hours).some((day) => day === param);
+
+const schedulePerDay = (weekDay) => {
+  const schedule = {};
+  schedule[weekDay] = {
+    officeHour: officeHour(weekDay),
+    exhibition: exhibition(weekDay),
+  };
+  return schedule;
+};
+const completeSchedule = (scheduleTarget) => {
+  if ((!isAnimal(scheduleTarget) && !isWeekDay(scheduleTarget)) || !scheduleTarget) {
     return Object.keys(hours).reduce((acc, weekDay) => {
       acc[weekDay] = {
         officeHour: officeHour(weekDay),
@@ -31,8 +49,18 @@ const getSchedule = (scheduleTarget) => {
       return acc;
     }, {});
   }
-  return species
-    .filter((specie) => specie.name === scheduleTarget)
-    .reduce((specie) => specie).availability;
+};
+
+function getSchedule(scheduleTarget) {
+  if (isAnimal(scheduleTarget)) {
+    return species
+      .filter((specie) => specie.name === scheduleTarget)
+      .reduce((specie) => specie).availability;
+  }
+  if (isWeekDay(scheduleTarget)) {
+    return schedulePerDay(scheduleTarget);
+  }
+  return completeSchedule(scheduleTarget);
 }
+
 module.exports = getSchedule;
