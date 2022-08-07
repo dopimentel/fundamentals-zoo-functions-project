@@ -57,10 +57,25 @@ describe('Testes da função getOpeningHours', () => {
     const expected = Error('The abbreviation must be \'AM\' or \'PM\'');
     expect(actual).toThrow(expected);
   });
+
   it('Testa se a função lança o erro "The hour must be between 0 and 12" se a hora estiver no formato militar', () => {
     const actual = () => getOpeningHours('Wednesday', '23:00-PM');
 
     const expected = Error('The hour must be between 0 and 12');
+    expect(actual).toThrow(expected);
+  });
+
+  it('Testa se a função lança o erro "The minutes must be between 0 and 59" se os minutos não estiverem no intervalo 0 - 59', () => {
+    const actual = () => getOpeningHours('Wednesday', '11:70-PM');
+
+    const expected = Error('The minutes must be between 0 and 59');
+    expect(actual).toThrow(expected);
+  });
+
+  it('Testa se a função lança o erro "The day must be valid. Example: Monday" se não receber um weekday válido em inglês', () => {
+    const actual = () => getOpeningHours('segunda', '11:00-PM');
+
+    const expected = Error('The day must be valid. Example: Monday');
     expect(actual).toThrow(expected);
   });
 });
