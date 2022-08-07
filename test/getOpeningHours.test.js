@@ -36,4 +36,18 @@ describe('Testes da função getOpeningHours', () => {
     const expected = 'The zoo is closed';
     expect(actual).toMatch(expected);
   });
+
+  it('Testa se a função lança o erro "The hour should represent a number" quando a hora não for número', () => {
+    const actual = () => getOpeningHours('Wednesday', 'xx:00-PM');
+
+    const expected = Error('The hour should represent a number');
+    expect(actual).toThrow(expected);
+  });
+
+  it('Testa se a função lança o erro "The minutes should represent a number" quando os minutos não forem números', () => {
+    const actual = () => getOpeningHours('Wednesday', '09:xx-PM');
+
+    const expected = Error('The minutes should represent a number');
+    expect(actual).toThrow(expected);
+  });
 });
