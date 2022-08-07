@@ -50,4 +50,17 @@ describe('Testes da função getOpeningHours', () => {
     const expected = Error('The minutes should represent a number');
     expect(actual).toThrow(expected);
   });
+
+  it('Testa se a função lança o erro "The abbreviation must be \'AM\' or \'PM\'" se a abreviação não ser am/pm', () => {
+    const actual = () => getOpeningHours('Wednesday', '09:00-KM');
+
+    const expected = Error('The abbreviation must be \'AM\' or \'PM\'');
+    expect(actual).toThrow(expected);
+  });
+  it('Testa se a função lança o erro "The hour must be between 0 and 12" se a hora estiver no formato militar', () => {
+    const actual = () => getOpeningHours('Wednesday', '23:00-PM');
+
+    const expected = Error('The hour must be between 0 and 12');
+    expect(actual).toThrow(expected);
+  });
 });
