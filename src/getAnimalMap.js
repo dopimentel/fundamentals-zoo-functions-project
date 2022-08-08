@@ -23,7 +23,7 @@ const nameIncluser = (arrayAnimals, ordered) =>
   });
 
 function getAnimalMap(options = {}) {
-  const { includeNames, sex, sorted } = options;
+  const { includeNames } = options;
   const arrayLocations = ['NE', 'NW', 'SE', 'SW'];
   return arrayLocations.reduce((acc, curr) => {
     acc[curr] = includeNames
@@ -34,3 +34,5 @@ function getAnimalMap(options = {}) {
 }
 
 module.exports = getAnimalMap;
+
+// Não finalizado;
