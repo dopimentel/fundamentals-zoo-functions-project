@@ -4,35 +4,49 @@ const data = require('../data/zoo_data');
 const getAnimalsByLocation = (location) => species
   .filter((specie) => specie.location === location)
   .map((specie) => specie.name);
-const getResidentsBySpecie = (param) => species
-  .filter((specie) => specie.name === param)
+
+const getResidentsBySpecie = (animalSpecie) => species
+  .filter((specie) => specie.name === animalSpecie)
   .reduce((specie) => specie).residents;
-const residentsNames = (param, callback) => callback(param).reduce((acc, resident) => {
-  acc.push(resident.name);
-  return acc;
-}, []);
-getResidentsBySpecie('lions');
 
-const nameIncluser = (arrayAnimals, ordered) =>
-  arrayAnimals.map((animal) => {
-    const resultado = {};
-    resultado[animal] = ordered
-      ? residentsNames(animal, getResidentsBySpecie).sort()
-      : residentsNames(animal, getResidentsBySpecie);
-    return resultado;
+const getResidentsNames = (animalSpecie, sex, callback) => callback(animalSpecie, sex)
+  .reduce((acc, resident) => {
+    acc.push(resident.name);
+    return acc;
+  }, []);
+
+const filterResidentsBySex = (animalSpecie, sex) => getResidentsBySpecie(animalSpecie)
+  .filter((resident) => resident.sex === sex);
+
+const sorter = (names, boolean) => (boolean ? names.sort() : names);
+
+const nameIncluser = (animals, sex, sorted) => {
+  if (sex !== undefined) {
+    return animals.map((animal) => {
+      const result = {};
+      result[animal] = getResidentsNames(animal, sex, filterResidentsBySex);
+      sorter(result[animal], sorted);
+      return result;
+    });
+  }
+  return animals.map((animal) => {
+    const result = {};
+    result[animal] = getResidentsNames(animal, sex, getResidentsBySpecie);
+    sorter(result[animal], sorted);
+    return result;
   });
+};
 
-function getAnimalMap(options = {}) {
-  const { includeNames } = options;
+const getAnimalMap = (options = {}) => {
+  const { includeNames, sex, sorted } = options;
   const arrayLocations = ['NE', 'NW', 'SE', 'SW'];
-  return arrayLocations.reduce((acc, curr) => {
-    acc[curr] = includeNames
-      ? nameIncluser(getAnimalsByLocation(curr))
-      : getAnimalsByLocation(curr);
+  const result = arrayLocations.reduce((acc, location) => {
+    acc[location] = includeNames
+      ? nameIncluser(getAnimalsByLocation(location), sex, sorted)
+      : getAnimalsByLocation(location);
     return acc;
   }, {});
-}
+  return result;
+};
 
 module.exports = getAnimalMap;
-
-// Não finalizado;
