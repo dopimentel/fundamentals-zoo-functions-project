@@ -18,14 +18,14 @@ const getEmployeesCoverage = ({ name, id } = {}) => {
   if (name === undefined && id === undefined) {
     return employees.map((getEmployeeInfos));
   }
-  const employeeInfo = employees.find(
+  const foundEmployee = employees.find(
     (employee) =>
       employee.firstName === name || employee.lastName === name || employee.id === id,
   );
-  if (employeeInfo === undefined) {
+  if (foundEmployee === undefined) {
     throw new Error('Informações inválidas');
   }
-  return getEmployeeInfos(employeeInfo);
+  return getEmployeeInfos(foundEmployee);
 };
 
 module.exports = getEmployeesCoverage;
